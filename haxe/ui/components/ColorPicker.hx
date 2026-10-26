@@ -560,7 +560,7 @@ private class HSVColorPickerImpl extends ColorPickerImpl {
         var g = Std.parseInt("0x" + hexG);
         var b = Std.parseInt("0x" + hexB);
         
-        if (_trackingSaturationValue == false && _sliderTracking == false) {
+        if (_trackingSaturationValue == false && _trackingHue == false && _sliderTracking == false) {
             applyRGBA({r:r, g:g, b:b});
         }
     }
