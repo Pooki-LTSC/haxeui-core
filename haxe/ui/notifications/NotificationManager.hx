@@ -204,12 +204,15 @@ class NotificationManager extends EventDispatcher<NotificationEvent> {
     private static var GUTTER_SIZE = 20;
     private static var SPACING = 10;
     private var _isAnimating:Bool = false;
+    private var _positionPending:Bool = false;
     private function positionNotifications() {
         if (_isAnimating == true) {
+            _positionPending = true;
             return;
         }
 
         _isAnimating = true;
+        _positionPending = false;
 
         var sequence = new AnimationSequence();
         var builders = animationFn(_currentNotifications);
@@ -223,6 +226,8 @@ class NotificationManager extends EventDispatcher<NotificationEvent> {
                 popNotification(_removeQueue.shift());
             } else if (_addQueue.length > 0) {
                 pushNotification(_addQueue.shift());
+            } else if (_positionPending) {
+                positionNotifications();
             }
         }
         sequence.play();
