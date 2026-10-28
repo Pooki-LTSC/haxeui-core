@@ -82,6 +82,7 @@ class NotificationManager extends EventDispatcher<NotificationEvent> {
 
         var notification = new Notification();
         notification.registerEvent(UIEvent.DESTROY, onNotificationDestroyed);
+        notification.registerEvent(UIEvent.RESIZE, onNotificationResized);
         notification.notificationData = notificationData;
         if (notificationDisplayDelayMs <= 0) {
             if (!_isAnimating) {
@@ -125,6 +126,13 @@ class NotificationManager extends EventDispatcher<NotificationEvent> {
         if (_currentNotifications.length == 0) {
             _isAnimating = false;
         }
+    }
+
+    private function onNotificationResized(event:UIEvent) {
+        if (_currentNotifications.indexOf(cast event.target) == -1) {
+            return;
+        }
+        positionNotifications();
     }
 
     public function clearNotifications():Void {
